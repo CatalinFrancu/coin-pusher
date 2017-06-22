@@ -50,3 +50,9 @@ To use it:
 1. Set up API keys on the respective sites.
 2. Add the API key and secret in the appropriate place in `coin-pusher.conf`.
 3. Run `balances.php`.
+
+### Portfolio builder spreadsheet
+
+`docs/portfolio-tracker.ods` is a simple helper spreadsheet you can use to build your own index fund. Pick the coins you like, figure out the desired allocation, plug in the amount of fiat coins you want to invest, and the spreadsheet will tell you how many shares of each digital coins to buy.
+
+Additional details are included in the spreadsheet itself.
