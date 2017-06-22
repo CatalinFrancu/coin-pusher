@@ -1,0 +1,15 @@
+[api]
+
+pricesUrl = "https://api.coinmarketcap.com/v1/ticker/?limit=100"
+
+bittrexKey = ""
+bittrexSecret = ""
+bittrexUrl = "https://bittrex.com/api/v1.1/account/getbalances?apikey=%s&nonce=%s"
+
+bitfinexKey = ""
+bitfinexSecret = ""
+bitfinexUrl = "https://api.bitfinex.com/v1/balances"
+
+krakenKey = ""
+krakenSecret = ""
+krakenUrl = "https://api.kraken.com/0/private/Balance"
