@@ -4,7 +4,7 @@ This is a collection of tools I wrote to help me build, balance and track a port
 
 ## Instalation
 
-simply copy `coin-pusher.conf.sample` to `coin-pusher.conf` and edit to taste.
+Simply copy `coin-pusher.conf.sample` to `coin-pusher.conf` and edit to taste.
 
 ## Components
 
