@@ -1,15 +1,28 @@
 [api]
 
+# URL for current market caps and coin prices
 pricesUrl = "https://api.coinmarketcap.com/v1/ticker/?limit=100"
 
+# bittrex.com credentials
 bittrexKey = ""
 bittrexSecret = ""
 bittrexUrl = "https://bittrex.com/api/v1.1/account/getbalances?apikey=%s&nonce=%s"
 
+# bitfinex.com credentials
 bitfinexKey = ""
 bitfinexSecret = ""
 bitfinexUrl = "https://api.bitfinex.com/v1/balances"
 
+# kraken.com credentials
 krakenKey = ""
 krakenSecret = ""
 krakenUrl = "https://api.kraken.com/0/private/Balance"
+
+[symbols]
+
+# canonicalize symbols according to coinmarketcap.com
+canonical["IOT"] = "MIOTA"
+canonical["XETH"] = "ETH"
+canonical["XLTC"] = "LTC"
+canonical["XXBT"] = "BTC"
+canonical["XXRP"] = "XRP"

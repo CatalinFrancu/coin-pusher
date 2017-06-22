@@ -2,14 +2,6 @@
 
 require_once 'lib/Core.php';
 
-$SYMBOL_SYNONYMS = [
-  'IOT' => 'MIOTA',
-  'XETH' => 'ETH',
-  'XLTC' => 'LTC',
-  'XXBT' => 'BTC',
-  'XXRP' => 'XRP',
-];
-
 $prices = getPrices();
 
 $balances = [];
@@ -18,9 +10,10 @@ getBitfinexBalance($balances);
 getKrakenBalance($balances);
 
 // canonicalize symbol names
+$canonical = Config::get('symbols.canonical');
 foreach ($balances as $i => $row) {
-  if (isset($SYMBOL_SYNONYMS[$row['symbol']])) {
-    $balances[$i]['symbol'] = $SYMBOL_SYNONYMS[$row['symbol']];
+  if (isset($canonical[$row['symbol']])) {
+    $balances[$i]['symbol'] = $canonical[$row['symbol']];
   }
 }
 
