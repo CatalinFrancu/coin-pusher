@@ -38,3 +38,15 @@ The simulator considers three allocation strategies:
 The simulator cycles through all the index sizes and allocation strategies. For each combination, it invests $1, rebalances the portfolio monthly and reports the final amount.
 
 The rebalancing doesn't happen on the same day every month, because we only have weekly snapshots of the historical data. The simulator selects data sets from the same week of every month (13-19 by default).
+
+### Portfolio tracker
+
+If you have wallets on several exchanges, keeping track of the total wealth becomes hard. The script `balances.php` connects to all these wallets (after you set up API access) and gives you a balance sheet of every coin you have, plus equivalent totals in USD and Bitcoin.
+
+Currently supported are [Kraken](https://www.kraken.com/), [Bittrex](https://bittrex.com/) and [Bitfinex](https://www.bitfinex.com/). If you use other exchanges, patches to integrate with them are kindly appreciated.
+
+To use it:
+
+1. Set up API keys on the respective sites.
+2. Add the API key and secret in the appropriate place in `coin-pusher.conf`.
+3. Run `balances.php`.
