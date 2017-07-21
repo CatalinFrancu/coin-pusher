@@ -30,7 +30,16 @@ krakenUrl = "https://api.kraken.com/0/private/Balance"
 
 # canonicalize symbols according to coinmarketcap.com
 canonical["IOT"] = "MIOTA"
+canonical["XETC"] = "ETC"
 canonical["XETH"] = "ETH"
 canonical["XLTC"] = "LTC"
 canonical["XXBT"] = "BTC"
 canonical["XXRP"] = "XRP"
+
+[coins]
+
+# List symbols and amounts explicitly. Good for personal wallets or sites that don't offer
+# wallet APIs.
+# Format: amount,symbol,source, where source can be any string
+
+# coin[] = "1.00000000,BTC,my-other-exchange"

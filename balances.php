@@ -23,6 +23,17 @@ if (file_exists($cacheFile) && !$force) {
   getKrakenBalance($balances);
 }
 
+// add explicit coin balances from the [coins] section of coin-pusher.conf
+$explicit = Config::get('coins.coin', []);
+foreach ($explicit as $coin) {
+  list($amount,$symbol,$source) = explode(',', $coin);
+  $balances[] = [
+    'symbol' => $symbol,
+    'amount' => $amount,
+    'source' => $source,
+  ];
+}
+
 // canonicalize symbol names
 $canonical = Config::get('symbols.canonical');
 foreach ($balances as $i => $row) {
