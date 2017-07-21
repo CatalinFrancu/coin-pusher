@@ -43,13 +43,16 @@ The rebalancing doesn't happen on the same day every month, because we only have
 
 If you have wallets on several exchanges, keeping track of the total wealth becomes hard. The script `balances.php` connects to all these wallets (after you set up API access) and gives you a balance sheet of every coin you have, plus equivalent totals in USD and Bitcoin.
 
-Currently supported are [Kraken](https://www.kraken.com/), [Bittrex](https://bittrex.com/) and [Bitfinex](https://www.bitfinex.com/). If you use other exchanges, patches to integrate with them are kindly appreciated.
+Currently supported are [Kraken](https://www.kraken.com/), [Bittrex](https://bittrex.com/) and [Bitfinex](https://www.bitfinex.com/). If you use other exchanges, patches to integrate with them are kindly appreciated. You can also enumerate coin balances explicitly in the `[coins]` section of `coin-pusher.conf` (for personal wallets or for sites that don't offer a wallet API).
 
 To use it:
 
 1. Set up API keys on the respective sites.
 2. Add the API key and secret in the appropriate place in `coin-pusher.conf`.
+3. Enumerate coin balances explicitly.
 3. Run `balances.php`.
+
+By default, `balances.php` caches account balances in `cache/balances.json`. This helps speed up the script. You can force a refresh by adding the command line argument `-f` or `--force` (or by deleting the cache file).
 
 ### Portfolio builder spreadsheet
 
