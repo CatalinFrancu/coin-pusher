@@ -3,6 +3,9 @@
 # cache file relative to the root directory
 balanceCache = "cache/balances.json"
 
+# number of coins that get-csv.php should report on
+csvCoins = 25
+
 [api]
 
 # URL for current market caps and coin prices

@@ -7,12 +7,12 @@
 
 require_once 'lib/Core.php';
 
-define('MAX_COINS', 15);
+$numCoins = Config::get('global.csvCoins');
 
 $json = file_get_contents(Config::get('api.pricesUrl'));
 $data = json_decode($json);
 
-for ($i = 0; $i < MAX_COINS; $i++) {
+for ($i = 0; $i < $numCoins; $i++) {
   $rec = $data[$i];
   $row = [ $rec->symbol, $rec->market_cap_usd, $rec->price_usd ];
   fputcsv(STDOUT, $row);
