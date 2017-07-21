@@ -2,12 +2,26 @@
 
 require_once 'lib/Core.php';
 
+// Downloads real-time coin prices, then checks balances of accounts defined in the [api] section
+// of coin-pusher.conf. Reports the USD value of the aggregate balance. If a cache file exists,
+// then uses cached balances and skips the API calls, unless you specify -f or --force.
+
+// command-line arguments:
+//   -f, --force      Force API calls even when cached balances exist
+$opts = getopt('f', [ 'force' ]);
+$force = isset($opts['f']) || isset($opts['force']);
+
 $prices = getPrices();
 
-$balances = [];
-getBittrexBalance($balances);
-getBitfinexBalance($balances);
-getKrakenBalance($balances);
+$cacheFile = __DIR__ . '/' . Config::get('global.balanceCache');
+if (file_exists($cacheFile) && !$force) {
+  $balances = json_decode(file_get_contents($cacheFile), true);
+} else {
+  $balances = [];
+  getBittrexBalance($balances);
+  getBitfinexBalance($balances);
+  getKrakenBalance($balances);
+}
 
 // canonicalize symbol names
 $canonical = Config::get('symbols.canonical');
@@ -38,6 +52,10 @@ foreach ($balances as $row) {
 }
 
 printf("BALANCE: %0.2f USD / %0.8f BTC\n", $sumUsd, $sumBtc);
+
+if ($force || !file_exists($cacheFile)) {
+  file_put_contents($cacheFile, json_encode($balances));
+}
 
 /*************************************************************************/
 

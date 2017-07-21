@@ -1,3 +1,8 @@
+[global]
+
+# cache file relative to the root directory
+balanceCache = "cache/balances.json"
+
 [api]
 
 # URL for current market caps and coin prices
