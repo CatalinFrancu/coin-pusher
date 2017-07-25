@@ -21,6 +21,7 @@ if (file_exists($cacheFile) && !$force) {
   getBittrexBalance($balances);
   getBitfinexBalance($balances);
   getKrakenBalance($balances);
+  file_put_contents($cacheFile, json_encode($balances));
 }
 
 // add explicit coin balances from the [coins] section of coin-pusher.conf
@@ -63,10 +64,6 @@ foreach ($balances as $row) {
 }
 
 printf("BALANCE: %0.2f USD / %0.8f BTC\n", $sumUsd, $sumBtc);
-
-if ($force || !file_exists($cacheFile)) {
-  file_put_contents($cacheFile, json_encode($balances));
-}
 
 /*************************************************************************/
 
