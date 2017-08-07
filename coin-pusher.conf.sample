@@ -1,37 +1,37 @@
 [global]
 
-# cache file relative to the root directory
+; cache file relative to the root directory
 balanceCache = "cache/balances.json"
 
-# number of coins that get-csv.php should report on
+; number of coins that get-csv.php should report on
 csvCoins = 25
 
-# do not report residual balances worth less than this (in USD)
+; do not report residual balances worth less than this (in USD)
 balanceThreshold = 1.00
 
 [api]
 
-# URL for current market caps and coin prices
+; URL for current market caps and coin prices
 pricesUrl = "https://api.coinmarketcap.com/v1/ticker/?limit=100"
 
-# bittrex.com credentials
+; bittrex.com credentials
 bittrexKey = ""
 bittrexSecret = ""
 bittrexUrl = "https://bittrex.com/api/v1.1/account/getbalances?apikey=%s&nonce=%s"
 
-# bitfinex.com credentials
+; bitfinex.com credentials
 bitfinexKey = ""
 bitfinexSecret = ""
 bitfinexUrl = "https://api.bitfinex.com/v1/balances"
 
-# kraken.com credentials
+; kraken.com credentials
 krakenKey = ""
 krakenSecret = ""
 krakenUrl = "https://api.kraken.com/0/private/Balance"
 
 [symbols]
 
-# canonicalize symbols according to coinmarketcap.com
+; canonicalize symbols according to coinmarketcap.com
 canonical["IOT"] = "MIOTA"
 canonical["XETC"] = "ETC"
 canonical["XETH"] = "ETH"
@@ -41,8 +41,8 @@ canonical["XXRP"] = "XRP"
 
 [coins]
 
-# List symbols and amounts explicitly. Good for personal wallets or sites that don't offer
-# wallet APIs.
-# Format: amount,symbol,source, where source can be any string
+; List symbols and amounts explicitly. Good for personal wallets or sites that don't offer
+; wallet APIs.
+; Format: amount,symbol,source, where source can be any string
 
-# coin[] = "1.00000000,BTC,my-other-exchange"
+; coin[] = "1.00000000,BTC,my-other-exchange"
