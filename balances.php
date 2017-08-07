@@ -48,16 +48,20 @@ $sumBtc = 0;
 foreach ($balances as $row) {
   if (isset($prices[$row['symbol']])) {
     $p = $prices[$row['symbol']];
-    printf("[%s] %s %s, unit price = %0.2f USD / %0.8f BTC, total = %0.2f USD / %0.8f BTC\n",
-           $row['source'],
-           $row['amount'],
-           $row['symbol'],
-           $p->price_usd,
-           $p->price_btc,
-           $p->price_usd * $row['amount'],
-           $p->price_btc * $row['amount']);
-    $sumUsd += $p->price_usd * $row['amount'];
-    $sumBtc += $p->price_btc * $row['amount'];
+    $usdEquiv = $p->price_usd * $row['amount'];
+    $btcEquiv = $p->price_btc * $row['amount'];
+    if ($usdEquiv >= Config::get('global.balanceThreshold')) {
+      printf("[%s] %s %s, unit price = %0.2f USD / %0.8f BTC, total = %0.2f USD / %0.8f BTC\n",
+             $row['source'],
+             $row['amount'],
+             $row['symbol'],
+             $p->price_usd,
+             $p->price_btc,
+             $usdEquiv,
+             $btcEquiv);
+      $sumUsd += $usdEquiv;
+      $sumBtc += $btcEquiv;
+    }
   } else if (floatval($row['amount']) > 0.0) {
     printf("No price info for currency [%s]\n", $row['symbol']);
   }

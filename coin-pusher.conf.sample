@@ -6,6 +6,9 @@ balanceCache = "cache/balances.json"
 # number of coins that get-csv.php should report on
 csvCoins = 25
 
+# do not report residual balances worth less than this (in USD)
+balanceThreshold = 1.00
+
 [api]
 
 # URL for current market caps and coin prices
