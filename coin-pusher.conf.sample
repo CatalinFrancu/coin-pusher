@@ -9,6 +9,12 @@ csvCoins = 25
 ; do not report residual balances worth less than this (in USD)
 balanceThreshold = 1.00
 
+; initial investment amount in USD
+initialUsd = 1000
+
+; BTC price in USD at the moment of the investment
+initialBtcPrice = 2000
+
 [api]
 
 ; URL for current market caps and coin prices

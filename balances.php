@@ -69,6 +69,12 @@ foreach ($balances as $row) {
 
 printf("BALANCE: %0.2f USD / %0.8f BTC\n", $sumUsd, $sumBtc);
 
+$growth = $sumUsd / Config::get('global.initialUsd') * 100; // in percents
+printf("ITD GROWTH: %.2f%%\n", $growth);
+
+$btcGrowth = $prices['BTC']->price_usd / Config::get('global.initialBtcPrice') * 100;
+printf("ITD BITCOIN GROWTH: %.2f%%\n", $btcGrowth);
+
 /*************************************************************************/
 
 function getPrices() {
