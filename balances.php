@@ -74,6 +74,7 @@ printf("ITD GROWTH: %.2f%%\n", $growth);
 
 $btcGrowth = $prices['BTC']->price_usd / Config::get('global.initialBtcPrice') * 100;
 printf("ITD BITCOIN GROWTH: %.2f%%\n", $btcGrowth);
+printf("Portfolio vs pure Bitcoin: %.2f%%\n", $growth / $btcGrowth * 100);
 
 /*************************************************************************/
 
