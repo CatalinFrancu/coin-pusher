@@ -50,7 +50,7 @@ foreach ($balances as $row) {
     $p = $prices[$row['symbol']];
     $usdEquiv = $p->price_usd * $row['amount'];
     $btcEquiv = $p->price_btc * $row['amount'];
-    if ($usdEquiv >= Config::get('global.balanceThreshold')) {
+    if (abs($usdEquiv) >= Config::get('global.balanceThreshold')) {
       printf("[%s] %s %s, unit price = %0.2f USD / %0.8f BTC, total = %0.2f USD / %0.8f BTC\n",
              $row['source'],
              $row['amount'],
