@@ -20,6 +20,11 @@ initialBtcPrice = 2000
 ; URL for current market caps and coin prices
 pricesUrl = "https://api.coinmarketcap.com/v1/ticker/?limit=100"
 
+; binance.com credentials
+binanceKey = ""
+binanceSecret = ""
+binanceUrl = "https://api.binance.com/api/"
+
 ; bittrex.com credentials
 bittrexKey = ""
 bittrexSecret = ""

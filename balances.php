@@ -18,6 +18,7 @@ if (file_exists($cacheFile) && !$force) {
   $balances = json_decode(file_get_contents($cacheFile), true);
 } else {
   $balances = [];
+  getBinanceBalance($balances);
   getBittrexBalance($balances);
   getBitfinexBalance($balances);
   getKrakenBalance($balances);
@@ -90,6 +91,40 @@ function getPrices() {
   return $result;
 }
 
+// adapted from https://github.com/jaggedsoft/php-binance-api
+function getBinanceBalance(&$balances) {
+  $key = Config::get('api.binanceKey');
+  $secret = Config::get('api.binanceSecret');
+  $urlPattern = Config::get('api.binanceUrl');
+  if (!$key || !$secret || !$urlPattern) {
+    return;
+  }
+
+  $opt = [
+    'http' => [
+      'method' => 'GET',
+      'ignore_errors' => true,
+      'header' => "X-MBX-APIKEY: {$key}\n"
+    ],
+  ];
+  $context = stream_context_create($opt);
+  $timestamp = number_format(microtime(true) * 1000, 0, '.', '');
+  $sign = hash_hmac('sha256', "timestamp=$timestamp", $secret);
+  $uri = sprintf($urlPattern, $timestamp, $sign);
+  $data = file_get_contents($uri, false, $context);
+  $data = json_decode($data);
+
+  foreach ($data->balances as $row) {
+    if ($row->free > 0) {
+      $balances[] = [
+        'symbol' => $row->asset,
+        'amount' => $row->free,
+        'source' => 'binance',
+      ];
+    }
+  }
+}
+
 function getBittrexBalance(&$balances) {
   $key = Config::get('api.bittrexKey');
   $secret = Config::get('api.bittrexSecret');
@@ -129,7 +164,7 @@ function getBitfinexBalance(&$balances) {
     'nonce' => strval(round(microtime(true) * 10, 0)),
   ];
   $payload = base64_encode(json_encode($data));
-  $signature = hash_hmac("sha384", $payload, $secret);
+  $signature = hash_hmac('sha384', $payload, $secret);
   $headers = [
     "X-BFX-APIKEY: " . $key,
     "X-BFX-PAYLOAD: " . $payload,
