@@ -19,10 +19,7 @@ foreach (glob(HISTORY_FILES) as $file) {
   @$doc->loadHTMLFile($file);
 
   // verify table headers
-  $header = $doc
-          ->getElementById('currencies-all')
-          ->getElementsByTagName('thead')[0]
-          ->getElementsByTagName('th');
+  $header = getHeader($doc);
   assert($header[2]->textContent == 'Symbol');
   assert($header[3]->textContent == 'Market Cap');
   assert($header[4]->textContent == 'Price');
@@ -30,10 +27,7 @@ foreach (glob(HISTORY_FILES) as $file) {
   $data[$date] = [];
 
   // parse data rows
-  $rows = $doc
-        ->getElementById('currencies-all')
-        ->getElementsByTagName('tbody')[0]
-        ->getElementsByTagName('tr');
+  $rows = getRows($doc);
   foreach ($rows as $row) {
     $cells = $row->getElementsByTagName('td');
     $symbol = trim($cells[2]->textContent);
@@ -41,10 +35,40 @@ foreach (glob(HISTORY_FILES) as $file) {
     $price = str_replace([' ', '$', ','], '', trim($cells[4]->textContent));
 
     if ($marketCap != '?') {
-      print "  * {$symbol} | market cap = {$marketCap} | price = {$price}\n";
+      // print "  * {$symbol} | market cap = {$marketCap} | price = {$price}\n";
       $data[$date][] = [ $symbol, $marketCap, $price ];
     }
   }
 }
 
 file_put_contents(JSON_FILE, json_encode($data, JSON_PRETTY_PRINT));
+
+/*************************************************************************/
+
+function getHeader($doc) {
+  $elem = $doc->getElementById('currencies-all');
+  if ($elem) {
+    return $elem
+      ->getElementsByTagName('thead')[0]
+      ->getElementsByTagName('th');
+  } else {
+    return
+      $doc->getElementsByTagName('table')[2]
+      ->getElementsByTagName('thead')[0]
+      ->getElementsByTagName('th');
+  }
+}
+
+function getRows($doc) {
+  $elem = $doc->getElementById('currencies-all');
+  if ($elem) {
+    return $elem
+      ->getElementsByTagName('tbody')[0]
+      ->getElementsByTagName('tr');
+  } else {
+    return
+      $doc->getElementsByTagName('table')[2]
+      ->getElementsByTagName('tbody')[0]
+      ->getElementsByTagName('tr');
+  }
+}
