@@ -7,13 +7,13 @@
 
 require_once 'lib/Core.php';
 
-$numCoins = Config::get('global.csvCoins');
+$data = Core::getPrices();
 
-$json = file_get_contents(Config::get('api.pricesUrl'));
-$data = json_decode($json);
-
-for ($i = 0; $i < $numCoins; $i++) {
-  $rec = $data[$i];
-  $row = [ $rec->symbol, $rec->market_cap_usd, $rec->price_usd ];
+foreach ($data as $rec) {
+  $row = [
+    $rec->symbol,
+    $rec->quote->USD->market_cap,
+    $rec->quote->USD->price,
+  ];
   fputcsv(STDOUT, $row);
 }

@@ -11,7 +11,8 @@ require_once 'lib/Core.php';
 $opts = getopt('f', [ 'force' ]);
 $force = isset($opts['f']) || isset($opts['force']);
 
-$prices = getPrices();
+$prices = Core::getPrices();
+$oneBtcInUsd = $prices['BTC']->quote->USD->price;
 
 $cacheFile = __DIR__ . '/' . Config::get('global.balanceCache');
 if (file_exists($cacheFile) && !$force) {
@@ -49,15 +50,17 @@ $sumBtc = 0;
 foreach ($balances as $row) {
   if (isset($prices[$row['symbol']])) {
     $p = $prices[$row['symbol']];
-    $usdEquiv = $p->price_usd * $row['amount'];
-    $btcEquiv = $p->price_btc * $row['amount'];
+    $priceUsd = $p->quote->USD->price;
+    $priceBtc = $priceUsd / $oneBtcInUsd;
+    $usdEquiv = $priceUsd * $row['amount'];
+    $btcEquiv = $priceBtc * $row['amount'];
     if (abs($usdEquiv) >= Config::get('global.balanceThreshold')) {
       printf("[%s] %s %s, unit price = %0.2f USD / %0.8f BTC, total = %0.2f USD / %0.8f BTC\n",
              $row['source'],
              $row['amount'],
              $row['symbol'],
-             $p->price_usd,
-             $p->price_btc,
+             $priceUsd,
+             $priceBtc,
              $usdEquiv,
              $btcEquiv);
       $sumUsd += $usdEquiv;
@@ -73,23 +76,11 @@ printf("BALANCE: %0.2f USD / %0.8f BTC\n", $sumUsd, $sumBtc);
 $growth = $sumUsd / Config::get('global.initialUsd') * 100; // in percents
 printf("ITD GROWTH: %.2f%%\n", $growth);
 
-$btcGrowth = $prices['BTC']->price_usd / Config::get('global.initialBtcPrice') * 100;
+$btcGrowth = $oneBtcInUsd / Config::get('global.initialBtcPrice') * 100;
 printf("ITD BITCOIN GROWTH: %.2f%%\n", $btcGrowth);
 printf("Portfolio vs pure Bitcoin: %.2f%%\n", $growth / $btcGrowth * 100);
 
 /*************************************************************************/
-
-function getPrices() {
-  $json = file_get_contents(Config::get('api.pricesUrl'));
-  $data = json_decode($json);
-  $result = [];
-
-  foreach ($data as $row) {
-    $result[$row->symbol] = $row;
-  }
-
-  return $result;
-}
 
 // adapted from https://github.com/jaggedsoft/php-binance-api
 function getBinanceBalance(&$balances) {
@@ -158,7 +149,7 @@ function getBitfinexBalance(&$balances) {
   if (!$key || !$secret || !$url) {
     return;
   }
-  
+
   $data = [
     'request' => '/v1/balances',
     'nonce' => strval(round(microtime(true) * 10, 0)),

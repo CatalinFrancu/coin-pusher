@@ -18,7 +18,8 @@ initialBtcPrice = 2000
 [api]
 
 ; URL for current market caps and coin prices
-pricesUrl = "https://api.coinmarketcap.com/v1/ticker/?limit=100"
+cmcUrl = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest"
+cmcKey = ""
 
 ; binance.com credentials
 binanceKey = ""
@@ -48,6 +49,8 @@ canonical["XETC"] = "ETC"
 canonical["XETH"] = "ETH"
 canonical["XLTC"] = "LTC"
 canonical["XXBT"] = "BTC"
+canonical["XXDG"] = "DOGE"
+canonical["XXLM"] = "XLM"
 canonical["XXRP"] = "XRP"
 
 [coins]
