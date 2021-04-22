@@ -4,7 +4,7 @@
 balanceCache = "cache/balances.json"
 
 ; number of coins that get-csv.php should report on
-csvCoins = 25
+csvCoins = 50
 
 ; do not report residual balances worth less than this (in USD)
 balanceThreshold = 1.00
@@ -24,7 +24,7 @@ cmcKey = ""
 ; binance.com credentials
 binanceKey = ""
 binanceSecret = ""
-binanceUrl = "https://api.binance.com/api/"
+binanceUrl = "https://api.binance.com/api/v3/account?timestamp=%s&signature=%s"
 
 ; bittrex.com credentials
 bittrexKey = ""
@@ -44,6 +44,7 @@ krakenUrl = "https://api.kraken.com/0/private/Balance"
 [symbols]
 
 ; canonicalize symbols according to coinmarketcap.com
+canonical["BCC"] = "BCH"
 canonical["IOT"] = "MIOTA"
 canonical["XETC"] = "ETC"
 canonical["XETH"] = "ETH"
