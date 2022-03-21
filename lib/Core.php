@@ -13,7 +13,7 @@ class Core {
     mb_internal_encoding('UTF-8');
 
     spl_autoload_register(); // clear the autoload stack
-    spl_autoload_register('Core::autoloadLibClass', false, true);
+    spl_autoload_register('Core::autoloadLibClass');
   }
 
   static function getPrices($limit = null) {
