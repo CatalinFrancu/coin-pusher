@@ -29,7 +29,7 @@ binanceUrl = "https://api.binance.com/api/v3/account?timestamp=%s&signature=%s"
 ; bittrex.com credentials
 bittrexKey = ""
 bittrexSecret = ""
-bittrexUrl = "https://bittrex.com/api/v1.1/account/getbalances?apikey=%s&nonce=%s"
+bittrexUrl = "https://api.bittrex.com/v3/balances"
 
 ; bitfinex.com credentials
 bitfinexKey = ""

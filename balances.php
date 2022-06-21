@@ -119,24 +119,32 @@ function getBinanceBalance(&$balances) {
 function getBittrexBalance(&$balances) {
   $key = Config::get('api.bittrexKey');
   $secret = Config::get('api.bittrexSecret');
-  $urlPattern = Config::get('api.bittrexUrl');
-  if (!$key || !$secret || !$urlPattern) {
+  $uri = Config::get('api.bittrexUrl');
+  if (!$key || !$secret || !$uri) {
     return;
   }
 
-  $nonce = time();
-  $uri = sprintf($urlPattern, $key, $nonce);
-  $sign = hash_hmac('sha512', $uri, $secret);
+  // Authentication: https://bittrex.github.io/api/v3#topic-Authentication
+  $millis =  (int)(microtime(true) * 1000);
+  $contentHash = hash('sha512', ''); // request body is empty
+  $presign = "{$millis}{$uri}GET{$contentHash}";
+  $signature = hash_hmac('sha512', $presign, $secret);
+  $headers = [
+    "Api-Key: $key",
+    "Api-Timestamp: $millis",
+    "Api-Content-Hash: $contentHash",
+    "Api-Signature: $signature",
+  ];
   $ch = curl_init($uri);
-  curl_setopt($ch, CURLOPT_HTTPHEADER, ['apisign:' . $sign]);
+  curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
   $execResult = curl_exec($ch);
   $data = json_decode($execResult);
 
-  foreach ($data->result as $row) {
+  foreach ($data as $row) {
     $balances[] = [
-      'symbol' => $row->Currency,
-      'amount' => $row->Balance,
+      'symbol' => $row->currencySymbol,
+      'amount' => $row->total,
       'source' => 'bittrex',
     ];
   }
