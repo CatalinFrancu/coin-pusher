@@ -15,5 +15,5 @@ foreach ($data as $rec) {
     $rec->quote->USD->market_cap,
     $rec->quote->USD->price,
   ];
-  fputcsv(STDOUT, $row);
+  fputcsv(STDOUT, $row, ',', '"', "\\");
 }
